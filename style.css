@@ -1,0 +1,123 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  border: 1px solid red;
+}
+:root {
+  --margin-value: 30px;
+}
+/* main */
+body {
+  width: 100vw;
+  height: 100vh;
+  background-color: bisque;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  height: 600px;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.display {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.computer-display,
+.player-display {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.display > div {
+  height: 33.3%;
+  padding-left: var(--margin-value);
+  padding-right: var(--margin-value);
+}
+
+.nametag {
+  height: 80px;
+  width: 250px;
+}
+.score-counter {
+  height: 80px;
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.score-counter > div {
+  height: inherit;
+  width: 15px;
+}
+
+.playground {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.player-choice,
+.computer-choice {
+  width: 100px;
+  height: 100px;
+  border-radius: 50px;
+  padding: 15px;
+}
+
+.player-choice > img,
+.computer-choice > img {
+  width: 70px;
+  height: 70px;
+}
+
+.versus img {
+  height: 70px;
+  width: 70px;
+}
+
+.btn-container {
+  height: 25%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: var(--margin-value);
+  padding-right: var(--margin-value);
+}
+
+.btn-container > button {
+  width: 80px;
+  height: 80px;
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  border: 3px solid;
+  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
+    5px 5px 0px 0px;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-container > button:active {
+  box-shadow: 0px 0px 0px 0px;
+  top: 5px;
+  left: 5px;
+}
+
+button > img {
+  height: inherit;
+  width: inherit;
+}
+
+.score {
+  background-color: yellow;
+}
