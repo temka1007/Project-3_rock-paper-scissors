@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 }
 :root {
   --margin-value: 30px;
@@ -11,7 +11,7 @@
 body {
   width: 100vw;
   height: 100vh;
-  background-color: bisque;
+  background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,10 @@ main {
   width: 400px;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
 }
 
 .display {
@@ -46,7 +50,24 @@ main {
 .nametag {
   height: 80px;
   width: 250px;
+  font-family: "Jersey 15", sans-serif;
+  font-size: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset,
+    rgba(0, 0, 0, 0.25) 0px 0px 0px 1px;
+  border-radius: 10px;
 }
+
+.computer-display > .nametag {
+  color: #6daff7;
+}
+
+.player-display > .nametag {
+  color: #f76f6d;
+}
+
 .score-counter {
   height: 80px;
   width: 70px;
@@ -70,17 +91,39 @@ main {
   height: 100px;
   border-radius: 50px;
   padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+.player-choice {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: #f76f6d9f 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.computer-choice {
+  box-shadow: #6db0f79c 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
 }
 
 .player-choice > img,
 .computer-choice > img {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
 }
 
-.versus img {
-  height: 70px;
-  width: 70px;
+.versus span {
+  font-family: "Jersey 15", sans-serif;
+  font-size: 65px;
+}
+
+.versus > span:nth-child(1) {
+  color: #f76f6d;
+}
+.versus > span:nth-child(2) {
+  color: #6daff7;
 }
 
 .btn-container {
@@ -98,26 +141,33 @@ main {
   text-decoration: none;
   color: #000;
   cursor: pointer;
-  border: 3px solid;
-  box-shadow: 1px 1px 0px 0px, 2px 2px 0px 0px, 3px 3px 0px 0px, 4px 4px 0px 0px,
-    5px 5px 0px 0px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  box-shadow: 3px 3px 0px 0px rgba(0, 0, 0, 0.25);
   position: relative;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .btn-container > button:active {
   box-shadow: 0px 0px 0px 0px;
-  top: 5px;
-  left: 5px;
+  top: 3px;
+  left: 3px;
 }
 
 button > img {
-  height: inherit;
-  width: inherit;
+  width: 60px;
+  height: 60px;
 }
 
 .score {
-  background-color: yellow;
+  background-color: #fada6a;
+}
+
+.score-counter > div {
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset,
+    rgba(0, 0, 0, 0.25) 0px 0px 0px 1px;
+  border-radius: 5px;
 }

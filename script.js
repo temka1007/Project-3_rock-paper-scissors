@@ -30,8 +30,8 @@ function clearScore() {
   computerScoreDiv.forEach((div) => div.classList.remove("score"));
   humanScoreDiv.forEach((div) => div.classList.remove("score"));
 
-  playerSelectionImg.src = "";
-  computerSelectionImg.src = "";
+  playerSelectionImg.src = "./images/empty.png";
+  computerSelectionImg.src = "./images/empty.png";
 }
 
 function getComputerChoice() {
