@@ -1,139 +1,153 @@
-"use strict";
+/**
+ * Rock-Paper-Scissors Game
+ * @module RockPaperScissors
+ */
 
+/** @typedef {"rock" | "paper" | "scissors"} Choice */
+
+const WINNING_SCORE = 3;
+const IMAGE_PATH = "./images/";
+const EMPTY_IMAGE = `${IMAGE_PATH}empty.png`;
+
+const CHOICES =
+  /** @type {{ROCK: "rock", PAPER: "paper", SCISSORS: "scissors"}} */ ({
+    ROCK: "rock",
+    PAPER: "paper",
+    SCISSORS: "scissors",
+  });
+
+/** @type {HTMLButtonElement} */
 const btnRock = document.querySelector("#rock");
+/** @type {HTMLButtonElement} */
 const btnPaper = document.querySelector("#paper");
+/** @type {HTMLButtonElement} */
 const btnScissors = document.querySelector("#scissors");
 
-const computerScoreDiv = [
-  ...document.querySelectorAll(".computer-display > .score-counter > div"),
-];
-const humanScoreDiv = [
-  ...document.querySelectorAll(".player-display > .score-counter > div"),
-];
+/** @type {HTMLDivElement[]} */
+const computerScoreDiv = Array.from(
+  document.querySelectorAll(".computer-display > .score-counter > div")
+);
+/** @type {HTMLDivElement[]} */
+const humanScoreDiv = Array.from(
+  document.querySelectorAll(".player-display > .score-counter > div")
+);
 
+/** @type {HTMLImageElement} */
 const playerSelectionImg = document.querySelector(".player-choice > img");
+/** @type {HTMLImageElement} */
 const computerSelectionImg = document.querySelector(".computer-choice > img");
 
 let computerScore = 0;
 let humanScore = 0;
 
-function countScore() {
-  for (let i = 0; i < computerScore; i++) {
-    computerScoreDiv[i].className = "score";
-  }
-  for (let i = 0; i < humanScore; i++) {
-    humanScoreDiv[i].className = "score";
-  }
-}
+/**
+ * Updates the score display.
+ * @returns {void}
+ */
+const updateScoreDisplay = () => {
+  computerScoreDiv.forEach((div, index) => {
+    div.classList.toggle("score", index < computerScore);
+  });
+  humanScoreDiv.forEach((div, index) => {
+    div.classList.toggle("score", index < humanScore);
+  });
+};
 
-function clearScore() {
+/**
+ * Resets the score and image display.
+ * @returns {void}
+ */
+const resetGameDisplay = () => {
   computerScoreDiv.forEach((div) => div.classList.remove("score"));
   humanScoreDiv.forEach((div) => div.classList.remove("score"));
+  playerSelectionImg.src = EMPTY_IMAGE;
+  computerSelectionImg.src = EMPTY_IMAGE;
+};
 
-  playerSelectionImg.src = "./images/empty.png";
-  computerSelectionImg.src = "./images/empty.png";
-}
+/**
+ * Returns a random computer choice.
+ * @returns {Choice}
+ */
+const getComputerChoice = () => {
+  const values = Object.values(CHOICES);
+  const index = Math.floor(Math.random() * values.length);
+  return values[index];
+};
 
-function getComputerChoice() {
-  let randomness = Math.random() * 100;
-  if (randomness < 33.3) {
-    return "rock";
-  } else if (randomness < 66.6) {
-    return "paper";
-  } else {
-    return "scissors";
-  }
-}
+/**
+ * Displays the selected choices.
+ * @param {Choice} humanChoice
+ * @param {Choice} computerChoice
+ * @returns {void}
+ */
+const displayChoices = (humanChoice, computerChoice) => {
+  playerSelectionImg.src = `${IMAGE_PATH}${humanChoice}.png`;
+  computerSelectionImg.src = `${IMAGE_PATH}${computerChoice}.png`;
+};
 
-let humanSelection;
+/**
+ * Determines the winner of the round and updates scores.
+ * @param {Choice} humanChoice
+ * @param {Choice} computerChoice
+ * @returns {void}
+ */
+const resolveRound = (humanChoice, computerChoice) => {
+  displayChoices(humanChoice, computerChoice);
 
-btnRock.addEventListener("click", (e) => {
-  humanSelection = e.currentTarget.id;
-  playRound();
-  playGame();
-});
-
-btnPaper.addEventListener("click", (e) => {
-  humanSelection = e.currentTarget.id;
-  playRound();
-  playGame();
-});
-
-btnScissors.addEventListener("click", (e) => {
-  humanSelection = e.currentTarget.id;
-  playRound();
-  playGame();
-});
-
-function displaySelection(human, computer) {
-  playerSelectionImg.src = `./images/${human}.png`;
-  computerSelectionImg.src = `./images/${computer}.png`;
-}
-
-function playRound() {
-  const computerSelection = getComputerChoice();
-  console.log(computerSelection);
-  displaySelection(humanSelection, computerSelection);
-
-  if (computerSelection == humanSelection) {
+  if (humanChoice === computerChoice) {
     console.log("Tie!");
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-  } else if (computerSelection == "rock" && humanSelection == "scissors") {
-    computerScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("computer wins!");
-  } else if (computerSelection == "paper" && humanSelection == "rock") {
-    computerScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("computer wins!");
-  } else if (computerSelection == "scissors" && humanSelection == "paper") {
-    computerScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("computer wins!");
-  } else if (computerSelection == "scissors" && humanSelection == "rock") {
-    humanScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("human wins!");
-  } else if (computerSelection == "rock" && humanSelection == "paper") {
-    humanScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("human wins!");
-  } else if (computerSelection == "paper" && humanSelection == "scissors") {
-    humanScore++;
-    console.log(
-      `Computer score: ${computerScore}, and Human score: ${humanScore}`
-    );
-    console.log("human wins!");
+    return;
   }
-  countScore();
-}
 
-function playGame() {
-  if (computerScore == 3) {
+  const winsAgainst = {
+    [CHOICES.ROCK]: CHOICES.SCISSORS,
+    [CHOICES.PAPER]: CHOICES.ROCK,
+    [CHOICES.SCISSORS]: CHOICES.PAPER,
+  };
+
+  const humanWins = winsAgainst[humanChoice] === computerChoice;
+
+  if (humanWins) {
+    humanScore += 1;
+    console.log("Human wins this round.");
+  } else {
+    computerScore += 1;
+    console.log("Computer wins this round.");
+  }
+
+  console.log(`Score => Human: ${humanScore}, Computer: ${computerScore}`);
+  updateScoreDisplay();
+};
+
+/**
+ * Checks for a winner and resets the game if needed.
+ * @returns {void}
+ */
+const handleGameEnd = () => {
+  if (computerScore === WINNING_SCORE || humanScore === WINNING_SCORE) {
+    const winner = computerScore === WINNING_SCORE ? "Computer" : "Human";
     computerScore = 0;
     humanScore = 0;
-    setTimeout(function () {
-      clearScore();
-      alert("Game over! Computer wins.");
-    }, 100);
-  } else if (humanScore == 3) {
-    computerScore = 0;
-    humanScore = 0;
-    setTimeout(function () {
-      clearScore();
-      alert("Game over! Human wins.");
+    setTimeout(() => {
+      resetGameDisplay();
+      alert(`Game over! ${winner} wins.`);
     }, 100);
   }
-}
+};
+
+/**
+ * Handles button click events.
+ * @param {MouseEvent} e
+ * @returns {void}
+ */
+const onChoiceSelected = (e) => {
+  /** @type {Choice} */
+  const humanChoice = e.currentTarget.id;
+  const computerChoice = getComputerChoice();
+  resolveRound(humanChoice, computerChoice);
+  handleGameEnd();
+};
+
+[btnRock, btnPaper, btnScissors].forEach((btn) => {
+  btn.addEventListener("click", onChoiceSelected);
+});
